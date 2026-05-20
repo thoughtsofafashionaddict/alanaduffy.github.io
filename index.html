@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alana Duffy — Thoughts of a Fashion Addict</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ivory:      #FAF8F3;
+  --parchment:  #F2EDE3;
+  --warm-white: #FDFCFA;
+  --linen:      #EDE7D9;
+  --stone:      #C8BFB0;
+  --ash:        #9A9188;
+  --ink:        #2C2820;
+  --soft-ink:   #4A4540;
+  --blush:      #E8C9BE;       /* accent — used sparingly */
+  --blush-mid:  #D4A898;
+  --sage:       #B8C4B0;
+  --sage-light: #D6DDD1;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--linen);
+  overflow: hidden;
+  font-family: 'Jost', sans-serif;
+  color: var(--ink);
+}
+
+/* subtle paper texture via repeating gradient */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(44,40,32,0.018) 28px,
+      rgba(44,40,32,0.018) 29px
+    );
+  pointer-events: none; z-index: 0;
+}
+
+/* ── SCENE ── */
+#scene {
+  width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+}
+
+/* ── BOOK WRAPPER ── */
+#book {
+  position: relative;
+  width: min(960px, 96vw);
+  height: min(640px, 88vh);
+  filter: drop-shadow(0 20px 60px rgba(44,40,32,0.18)) drop-shadow(0 4px 12px rgba(44,40,32,0.1));
+}
+
+/* ── SPREADS ── */
+.spread {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  width: 100%; height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+  transition: opacity 0.45s cubic-bezier(.4,0,.2,1), transform 0.45s cubic-bezier(.4,0,.2,1);
+  transform: translateX(30px);
+}
+.spread.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+.spread.exit-left  { transform: translateX(-30px); opacity: 0; }
+.spread.exit-right { transform: translateX(30px);  opacity: 0; }
+
+.page-l, .page-r {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* spine shadow */
+.page-l::after {
+  content: '';
+  position: absolute; top:0; right:0; width:20px; height:100%;
+  background: linear-gradient(to left, rgba(44,40,32,0.07), transparent);
+  pointer-events: none; z-index: 5;
+}
+.page-r::before {
+  content: '';
+  position: absolute; top:0; left:0; width:20px; height:100%;
+  background: linear-gradient(to right, rgba(44,40,32,0.05), transparent);
+  pointer-events: none; z-index: 5;
+}
+
+/* page backgrounds */
+.bg-ivory    { background: var(--ivory); }
+.bg-warm     { background: var(--warm-white); }
+.bg-parch    { background: var(--parchment); }
+.bg-linen    { background: var(--linen); }
+.bg-ink      { background: var(--ink); }
+.bg-blush    { background: var(--blush); }
+.bg-sage     { background: var(--sage-light); }
+
+/* ── TYPOGRAPHY ── */
+.label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 8.5px; letter-spacing: 4.5px;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.label-dark { color: rgba(250,248,243,0.45); }
+
+.display {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--ink);
+}
+.display-italic {
+  font-family: 'Cormorant', serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.92;
+}
+
+.body {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--soft-ink);
+}
+.body-sm {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ash);
+}
+
+.rule { height: 1px; background: var(--linen); }
+.rule-ink { height: 1px; background: var(--stone); }
+.rule-blush { height: 1px; background: var(--blush); }
+.rule-dark { height: 1px; background: rgba(250,248,243,0.12); }
+
+/* ── SPREAD 0: COVER ── */
+#s0 .page-l {
+  background: var(--warm-white);
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  padding: 44px 40px;
+}
+.cover-vol {
+  display: flex; align-items: center; gap: 12px;
+}
+.cover-vol span { font-family:'Jost'; font-weight:200; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--stone); }
+.cover-vol::after { content:''; flex:1; height:1px; background:var(--linen); }
+
+.cover-main { flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px; }
+.cover-title {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: clamp(48px, 7vw, 76px);
+  line-height: 0.88;
+  color: var(--ink);
+  letter-spacing: -1px;
+}
+.cover-title em {
+  font-style: italic;
+  color: var(--blush-mid);
+}
+.cover-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 16px;
+  color: var(--ash); letter-spacing: 0.5px;
+  margin-top: 6px;
+}
+.cover-foot {
+  display: flex; justify-content: space-between;
+  align-items: flex-end;
+}
+.cover-foot .label { color: var(--stone); }
+
+#s0 .page-r {
+  background: var(--parchment);
+  display: flex; flex-direction: column;
+  padding: 44px 36px;
+  gap: 0;
+}
+.toc-heading {
+  margin-bottom: 28px;
+}
+.toc-heading h2 {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-size: 13px;
+  letter-spacing: 6px; text-transform: uppercase;
+  color: var(--ash);
+}
+.toc-entry {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--linen);
+  cursor: pointer;
+  gap: 14px;
+  transition: gap 0.2s;
+}
+.toc-entry:hover { gap: 20px; }
+.toc-entry:last-child { border-bottom: none; }
+.toc-n {
+  font-family: 'Jost', sans-serif; font-weight:200;
+  font-size: 11px; letter-spacing: 1px; color: var(--stone);
+}
+.toc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--ink);
+  font-style: italic;
+}
+.toc-tag {
+  font-family: 'Jost', sans-serif; font-weight:200;
+  font-size: 8px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--stone);
+}
+.toc-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--linen);
+}
+
+/* ── SPREAD 1: ABOUT ── */
+#s1 .page-l {
+  background: var(--ink);
+  padding: 0;
+  display: flex; flex-direction: column;
+}
+.about-top {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; padding: 40px 36px;
+  position: relative; overflow: hidden;
+}
+.about-top::before {
+  content: 'A';
+  position: absolute;
+  font-family: 'Cormorant', serif; font-style: italic;
+  font-size: 280px; font-weight: 300;
+  color: rgba(250,248,243,0.03);
+  bottom: -60px; left: -20px;
+  line-height: 1; pointer-events: none;
+  user-select: none;
+}
+.about-top .label-dark { position: relative; z-index:1; }
+.about-top .name-display {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 42px; color: var(--ivory);
+  line-height: 1.05; text-align: center;
+  position: relative; z-index:1;
+}
+.about-top .location {
+  font-family: 'Jost', sans-serif; font-weight:200;
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: rgba(250,248,243,0.3); position: relative; z-index:1;
+}
+.about-top .divider-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--blush-mid);
+  position: relative; z-index:1;
+}
+.about-bottom {
+  background: var(--blush);
+  padding: 24px 36px;
+}
+.about-bottom .label { color: var(--soft-ink); margin-bottom:6px; }
+.about-bottom .role-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-style: italic;
+  color: var(--soft-ink); line-height: 1.4;
+}
+
+#s1 .page-r {
+  background: var(--warm-white);
+  padding: 40px 36px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.page-label-row {
+  display: flex; align-items: center; gap: 12px;
+}
+.page-label-row::after { content:''; flex:1; height:1px; background:var(--linen); }
+
+.pull-quote {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 21px; line-height: 1.45;
+  color: var(--ink);
+  padding-left: 16px;
+  border-left: 1.5px solid var(--blush-mid);
+}
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+.tag {
+  font-family: 'Jost', sans-serif; font-weight: 300;
+  font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--ash); border: 1px solid var(--linen);
+  padding: 5px 11px; border-radius: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+.tag:hover { border-color: var(--stone); color: var(--ink); }
+
+.social-row {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--linen);
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+a.pill {
+  font-family: 'Jost', sans-serif; font-weight: 300;
+  font-size: 8.5px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--soft-ink); text-decoration: none;
+  padding: 6px 13px; border: 1px solid var(--stone);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+a.pill:hover { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+
+/* ── SPREAD 2: WRITING ── */
+#s2 .page-l {
+  background: var(--ivory);
+  padding: 36px 36px 32px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.spread-header {
+  display: flex; align-items: baseline; gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--stone);
+  margin-bottom: 14px;
+}
+.spread-header .snum {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-size: 52px; font-weight: 300;
+  color: var(--linen); line-height: 1;
+}
+.spread-header .stitle {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-size: 30px;
+  line-height: 0.95; color: var(--ink);
+}
+.spread-header .stitle small {
+  display: block;
+  font-family: 'Jost'; font-weight:200;
+  font-size: 8.5px; letter-spacing:4px;
+  text-transform:uppercase; color:var(--ash);
+  margin-bottom: 4px;
+}
+
+.article-row {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--linen);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.article-row:last-child { border-bottom: none; }
+.art-date {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--stone);
+}
+.art-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height: 1.25;
+}
+.art-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 12px; color: var(--ash); line-height: 1.5;
+}
+a.art-link {
+  font-family: 'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--blush-mid); text-decoration: none;
+  margin-top: 1px; display: inline-block;
+}
+a.art-link:hover { text-decoration: underline; }
+
+#s2 .page-r {
+  background: var(--parchment);
+  padding: 36px 36px 32px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.archive-head {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--stone);
+}
+.archive-head h3 {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-weight:300; font-size:26px;
+  color: var(--ink); line-height:1;
+}
+.archive-head small {
+  font-family: 'Jost'; font-weight:200; font-size:8.5px;
+  letter-spacing:4px; text-transform:uppercase; color:var(--ash);
+}
+
+.sub-cta {
+  margin-top: auto;
+  background: var(--ink);
+  padding: 18px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+.sub-cta p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14px; color: var(--ivory);
+}
+.sub-cta a {
+  font-family: 'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--ivory); text-decoration:none;
+  border: 1px solid rgba(250,248,243,0.3);
+  padding: 7px 14px; white-space:nowrap;
+  transition: background 0.2s;
+}
+.sub-cta a:hover { background: rgba(250,248,243,0.1); }
+
+/* ── SPREAD 3: CREATIVE ── */
+#s3 .page-l {
+  background: var(--warm-white);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 0;
+}
+
+.creative-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.cg-cell {
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+.cg-cell:hover { filter: brightness(0.95); }
+.cg-cell .cg-label {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 7.5px; letter-spacing:3px; text-transform:uppercase;
+  margin-bottom: 3px;
+}
+.cg-cell .cg-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; line-height:1.2;
+}
+.cg-cell a { text-decoration: none; color: inherit; }
+.cg-cell a::after { content:''; position:absolute; inset:0; }
+
+.cg-1 { background: var(--parchment); }
+.cg-1 .cg-label { color: var(--ash); }
+.cg-1 .cg-name  { color: var(--ink); }
+
+.cg-2 { background: var(--blush); }
+.cg-2 .cg-label { color: var(--soft-ink); opacity:0.6; }
+.cg-2 .cg-name  { color: var(--ink); }
+
+.cg-3 { background: var(--sage-light); }
+.cg-3 .cg-label { color: var(--soft-ink); opacity:0.6; }
+.cg-3 .cg-name  { color: var(--ink); }
+
+.cg-4 { background: var(--linen); }
+.cg-4 .cg-label { color: var(--ash); }
+.cg-4 .cg-name  { color: var(--ink); }
+
+.cg-ornament {
+  position: absolute; top: 10px; right: 12px;
+  font-family: 'Cormorant', serif; font-style:italic;
+  font-size: 32px; font-weight:300;
+  color: rgba(44,40,32,0.07); line-height:1;
+  user-select: none;
+}
+
+#s3 .page-r {
+  background: var(--parchment);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.creative-entry {
+  display: flex; gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--linen);
+  align-items: flex-start;
+}
+.creative-entry:last-child { border-bottom: none; }
+.ce-num {
+  font-family: 'Cormorant', serif; font-style:italic;
+  font-size: 28px; font-weight:300;
+  color: var(--linen); line-height: 1; min-width:22px;
+}
+.ce-body {}
+.ce-label {
+  font-family:'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--ash); margin-bottom:2px;
+}
+.ce-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height:1.2; margin-bottom: 3px;
+}
+.ce-body p {
+  font-family:'Cormorant Garamond', serif;
+  font-size: 12px; color: var(--ash); line-height:1.55; font-style:italic;
+}
+.ce-body a {
+  font-family:'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--blush-mid); text-decoration:none;
+}
+.ce-body a:hover { text-decoration: underline; }
+
+.ig-banner {
+  margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border: 1px solid var(--linen);
+}
+.ig-banner .ig-label small {
+  font-family:'Jost'; font-weight:200; font-size:7.5px;
+  letter-spacing:4px; text-transform:uppercase; color:var(--ash);
+  display: block; margin-bottom:3px;
+}
+.ig-banner .ig-label span {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px; color:var(--ink);
+}
+.ig-banner a {
+  font-family:'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--soft-ink); text-decoration:none;
+  border-bottom: 1px solid var(--stone);
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.ig-banner a:hover { color: var(--blush-mid); border-color: var(--blush-mid); }
+
+/* ── SPREAD 4: EXPERIENCE ── */
+#s4 .page-l {
+  background: var(--ivory);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.exp-entry {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--linen);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.exp-entry:last-child { border-bottom: none; }
+.exp-company {
+  font-family: 'Jost'; font-weight:300;
+  font-size: 8.5px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--blush-mid);
+}
+.exp-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height:1.2;
+}
+.exp-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 12px; color: var(--stone);
+}
+.exp-detail {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px; color: var(--ash); line-height:1.55; margin-top:2px;
+}
+
+.other-exp {
+  margin-top: 10px; padding-top: 12px;
+  border-top: 1px solid var(--stone);
+}
+.other-exp .label { margin-bottom: 8px; }
+.other-exp p {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:12px; color:var(--ash); line-height:1.6;
+}
+
+#s4 .page-r {
+  background: var(--linen);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.skills-head {
+  margin-bottom: 18px;
+}
+.skills-head h2 {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-style:italic; font-size:40px;
+  line-height: 0.92; color: var(--ink);
+}
+
+.skill-line {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid rgba(200,191,176,0.4);
+}
+.skill-line .sk-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; color: var(--ink);
+}
+.sk-dots { display: flex; gap: 4px; }
+.sk-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--linen);
+  border: 1px solid var(--stone);
+  transition: background 0.3s;
+}
+.sk-dot.on { background: var(--blush-mid); border-color: var(--blush-mid); }
+
+.edu-section {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--stone);
+}
+.edu-section .label { margin-bottom: 10px; }
+.edu-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline; padding: 5px 0;
+  border-bottom: 1px solid rgba(200,191,176,0.3);
+}
+.edu-row:last-child { border-bottom: none; }
+.edu-row .er-inst {
+  font-family: 'Cormorant Garamond', serif;
+  font-style:italic; font-size: 14px; color: var(--ink);
+}
+.edu-row .er-year {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 9px; letter-spacing:2px; color: var(--ash);
+}
+.edu-degree {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--ash); padding: 3px 0 6px 0;
+  border-bottom: 1px solid rgba(200,191,176,0.3);
+}
+
+/* ── SPREAD 5: CONTACT ── */
+#s5 .page-l {
+  background: var(--ink);
+  padding: 44px 40px;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+.contact-eyebrow {
+  font-family:'Jost'; font-weight:200;
+  font-size: 8.5px; letter-spacing:5px; text-transform:uppercase;
+  color: rgba(250,248,243,0.3); margin-bottom: 12px;
+}
+.contact-headline {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-size: clamp(44px, 6vw, 64px);
+  line-height: 0.9; color: var(--ivory);
+}
+.contact-headline em {
+  font-style: italic; color: var(--blush);
+}
+.contact-strapline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px;
+  color: rgba(250,248,243,0.5); line-height:1.7;
+  margin-top: 14px;
+}
+.contact-list {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 28px;
+}
+.cl-row {}
+.cl-label {
+  font-family:'Jost'; font-weight:200;
+  font-size: 7.5px; letter-spacing:4px; text-transform:uppercase;
+  color: rgba(250,248,243,0.25); margin-bottom:2px;
+}
+.cl-value {
+  font-family:'Cormorant Garamond', serif;
+  font-size: 15px; color: var(--ivory);
+}
+.cl-value a { color: var(--ivory); text-decoration:none; }
+.cl-value a:hover { color: var(--blush); }
+
+.contact-foot {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: rgba(250,248,243,0.18);
+  padding-top: 20px;
+  border-top: 1px solid rgba(250,248,243,0.08);
+}
+
+#s5 .page-r {
+  background: var(--parchment);
+  padding: 44px 36px;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+.backcover-tag {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:5px; text-transform:uppercase;
+  color: var(--stone);
+  border: 1px solid var(--linen); padding: 5px 12px;
+  display: inline-block;
+}
+.backcover-name {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-weight:300;
+  font-size: 62px; color: var(--ink); line-height:0.88;
+}
+.backcover-tagline {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px; color:var(--ash); line-height:1.6;
+  margin-top: 8px;
+}
+
+.links-list { display:flex; flex-direction:column; }
+.llink {
+  display: flex; align-items: center; justify-content:space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--linen);
+  text-decoration: none;
+  gap: 10px;
+  transition: gap 0.2s;
+}
+.llink:last-child { border-bottom:none; }
+.llink:hover { gap: 16px; }
+.llink .ll-platform {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--stone); min-width: 72px;
+}
+.llink .ll-handle {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size: 14px; color: var(--ink); flex:1;
+}
+.llink .ll-arr {
+  font-family:'Jost'; font-size:11px;
+  color: var(--stone); transition: color 0.2s;
+}
+.llink:hover .ll-arr { color: var(--blush-mid); }
+
+.backcover-foot {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:4px; text-transform:uppercase;
+  color: var(--stone);
+}
+
+/* ── NAV ── */
+.nav-btn {
+  position: fixed; top:50%; transform: translateY(-50%);
+  width: 36px; height: 68px;
+  background: var(--ivory);
+  border: 1px solid var(--linen);
+  color: var(--ash); font-size: 15px;
+  display:flex; align-items:center; justify-content:center;
+  cursor: pointer; z-index:500;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nav-btn:hover { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+#prev-btn { left: 10px; }
+#next-btn { right: 10px; }
+
+#pager {
+  position: fixed; bottom: 18px; left:50%; transform:translateX(-50%);
+  display: flex; gap: 8px; z-index:500;
+}
+.pip {
+  width: 5px; height: 5px; border-radius:50%;
+  background: var(--stone); border:none;
+  cursor: pointer; padding:0;
+  transition: background 0.2s, transform 0.2s;
+}
+.pip.on { background: var(--ink); transform: scale(1.3); }
+
+#hint {
+  position: fixed; bottom: 18px; right: 16px;
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--stone); z-index:500;
+  animation: blink 2.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+/* responsive */
+@media (max-width:680px){
+  .spread { grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
+  .spread > div { height:50%; }
+  .cover-title { font-size:38px !important; }
+  .backcover-name { font-size:40px; }
+}
+</style>
+</head>
+<body>
+
+<div id="scene">
+<div id="book">
+
+<!-- ── COVER ── -->
+<div class="spread active" id="s0">
+  <div class="page-l bg-warm">
+    <div class="cover-vol">
+      <span>Vol. I &nbsp;·&nbsp; 2026</span>
+    </div>
+    <div class="cover-main">
+      <div class="label" style="letter-spacing:5px;">Thoughts of a Fashion Addict</div>
+      <div class="cover-title">
+        Alana<br><em>Duffy</em>
+      </div>
+      <div class="cover-sub">Fashion &middot; Culture &middot; Edinburgh</div>
+    </div>
+    <div class="cover-foot">
+      <span class="label">Business &amp; Marketing — University of Edinburgh</span>
+      <span class="label">Portfolio</span>
+    </div>
+  </div>
+  <div class="page-r bg-parch">
+    <div class="toc-heading">
+      <h2>Contents</h2>
+    </div>
+    <div class="toc-entry" onclick="go(1)">
+      <span class="toc-n">01</span>
+      <span class="toc-name">About Me</span>
+      <span class="toc-tag">Profile</span>
+    </div>
+    <div class="toc-entry" onclick="go(2)">
+      <span class="toc-n">02</span>
+      <span class="toc-name">Writing</span>
+      <span class="toc-tag">Substack</span>
+    </div>
+    <div class="toc-entry" onclick="go(3)">
+      <span class="toc-n">03</span>
+      <span class="toc-name">Creative Work</span>
+      <span class="toc-tag">Portfolio</span>
+    </div>
+    <div class="toc-entry" onclick="go(4)">
+      <span class="toc-n">04</span>
+      <span class="toc-name">Experience</span>
+      <span class="toc-tag">CV</span>
+    </div>
+    <div class="toc-entry" onclick="go(5)">
+      <span class="toc-n">05</span>
+      <span class="toc-name">Contact</span>
+      <span class="toc-tag">Links</span>
+    </div>
+    <div class="toc-bottom">
+      <span class="label">thoughtsofafashionaddict.substack.com</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<div class="spread" id="s1">
+  <div class="page-l bg-ink">
+    <div class="about-top">
+      <span class="label label-dark">01 — Profile</span>
+      <div class="name-display">Alana<br>Duffy</div>
+      <div class="divider-dot"></div>
+      <div class="location">Edinburgh, Scotland</div>
+    </div>
+    <div class="about-bottom">
+      <div class="label">Currently</div>
+      <div class="role-text">Business with Marketing, University of Edinburgh<br>Sunday Manager, Sahara London · Fashion Blogger</div>
+    </div>
+  </div>
+  <div class="page-r bg-warm">
+    <div class="page-label-row">
+      <span class="label">About</span>
+    </div>
+    <p class="pull-quote">"Self-proclaimed fashion addict with something to say about it."</p>
+    <p class="body">
+      I'm a first-year Business with Marketing student at the University of Edinburgh — and a writer, creator, and someone who thinks deeply about the intersection of fashion, culture, and commerce.
+    </p>
+    <p class="body-sm">
+      From running my own Substack, <em>Thoughts of a Fashion Addict</em>, to publishing in the student press, hosting student radio, and working in retail and social media management — I bring ideas to life across formats. I believe fashion is a lens through which to read the world.
+    </p>
+    <div class="tag-cloud">
+      <span class="tag">Writing</span>
+      <span class="tag">Fashion</span>
+      <span class="tag">Marketing</span>
+      <span class="tag">Editorial</span>
+      <span class="tag">Digital Content</span>
+      <span class="tag">Styling</span>
+    </div>
+    <div class="social-row">
+      <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank" class="pill">Substack</a>
+      <a href="https://www.instagram.com/thoughtsofafashionaddict?igsh=MXBwbnVyaG10anlubA%3D%3D&utm_source=qr" target="_blank" class="pill">Instagram</a>
+      <a href="https://pin.it/2sg0KVmXV" target="_blank" class="pill">Pinterest</a>
+      <a href="https://www.tiktok.com/@thoughtsofafashionaddict?_r=1&_t=ZN-96WplsC0tfC" target="_blank" class="pill">TikTok</a>
+      <a href="https://www.linkedin.com/in/alana-duffy-190490385?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="pill">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── WRITING ── -->
+<div class="spread" id="s2">
+  <div class="page-l bg-ivory">
+    <div class="spread-header">
+      <div class="snum">02</div>
+      <div class="stitle">
+        <small>Substack</small>
+        Writing
+      </div>
+    </div>
+    <div class="article-row">
+      <span class="art-date">May 2026</span>
+      <div class="art-title">Mediocre Met Monday</div>
+      <div class="art-desc">On the Met Gala and the slow death of genuine fashion risk-taking.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-196588050?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">April 2026</span>
+      <div class="art-title">Boys!! Get Your Ears Pierced</div>
+      <div class="art-desc">A manifesto for men's jewellery — the hoop as statement.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-192861586?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">March 2026</span>
+      <div class="art-title">Measure Up, Gentlemen</div>
+      <div class="art-desc">The trend cycle repeats — tailoring is back.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-190491804?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">March 2026</span>
+      <div class="art-title">Is That Miley Cyrus?</div>
+      <div class="art-desc">Miley's radical style evolution through a critical lens.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-189881774?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+  </div>
+  <div class="page-r bg-parch">
+    <div class="archive-head">
+      <small>Archive</small>
+      <h3>More from the archive</h3>
+    </div>
+    <div class="article-row">
+      <span class="art-date">February 2026</span>
+      <div class="art-title">The Traitors Style</div>
+      <div class="art-desc">Reflecting on the finale — is fashion the true faithful?</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-188258132?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">February 2026</span>
+      <div class="art-title">Fashion &amp; Marketing News of the Week</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-187861700?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">January 2026</span>
+      <div class="art-title">Visual Merch — Spring / Summer</div>
+      <div class="art-desc">New displays and the art of showing, not selling.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-185074554?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row" style="border-bottom:none;">
+      <span class="art-date">The Student — Edinburgh</span>
+      <div class="art-title">8 Published Articles</div>
+      <div class="art-desc">Contributing writer for Edinburgh's oldest student newspaper.</div>
+    </div>
+    <div class="sub-cta">
+      <p>All issues on Substack</p>
+      <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank">Subscribe →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── CREATIVE ── -->
+<div class="spread" id="s3">
+  <div class="page-l bg-warm">
+    <div class="spread-header">
+      <div class="snum">03</div>
+      <div class="stitle">
+        <small>Portfolio</small>
+        Creative
+      </div>
+    </div>
+    <div class="creative-grid">
+      <div class="cg-cell cg-1">
+        <div class="cg-ornament">I</div>
+        <div class="cg-label">Canva · Editorial</div>
+        <div class="cg-name"><a href="https://canva.link/2fsazdii2j95k2q" target="_blank">Muse Magazine<br>Leopard Spread</a></div>
+      </div>
+      <div class="cg-cell cg-2">
+        <div class="cg-ornament">II</div>
+        <div class="cg-label">Canva · Collection</div>
+        <div class="cg-name"><a href="https://canva.link/67soxgdi6rvjuwf" target="_blank">Growing Pains<br>Debut Collection</a></div>
+      </div>
+      <div class="cg-cell cg-3">
+        <div class="cg-ornament">III</div>
+        <div class="cg-label">Theatre</div>
+        <div class="cg-name">Young Playwrights<br>Quarter Finalist</div>
+      </div>
+      <div class="cg-cell cg-4">
+        <div class="cg-ornament">IV</div>
+        <div class="cg-label">Radio</div>
+        <div class="cg-name">Student Radio<br>Host</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-r bg-parch">
+    <div class="spread-header" style="margin-bottom:14px;">
+      <div class="snum" style="font-size:0; min-width:0;"></div>
+      <div class="stitle">
+        <small>Notes</small>
+        On the work
+      </div>
+    </div>
+    <div class="creative-entry">
+      <div class="ce-num">I</div>
+      <div class="ce-body">
+        <div class="ce-label">Muse Magazine · Leopard</div>
+        <div class="ce-title">Editorial design exploring leopard print as a symbol of power and self-expression.</div>
+        <a href="https://canva.link/2fsazdii2j95k2q" target="_blank">View project →</a>
+      </div>
+    </div>
+    <div class="creative-entry">
+      <div class="ce-num">II</div>
+      <div class="ce-body">
+        <div class="ce-label">Growing Pains · Collection</div>
+        <div class="ce-title">A debut fashion collection concept drawn from 90s coming-of-age film nostalgia.</div>
+        <a href="https://canva.link/67soxgdi6rvjuwf" target="_blank">View project →</a>
+      </div>
+    </div>
+    <div class="creative-entry">
+      <div class="ce-num">III</div>
+      <div class="ce-body">
+        <div class="ce-label">National Theatre · Young Playwrights</div>
+        <div class="ce-title">Original play directed and written by Alana, reaching the quarter finals of the national competition.</div>
+      </div>
+    </div>
+    <div class="creative-entry" style="border-bottom:none;">
+      <div class="ce-num">IV</div>
+      <div class="ce-body">
+        <div class="ce-label">Marketing Society</div>
+        <div class="ce-title">Collaboration competition participant — bridging fashion and business strategy.</div>
+      </div>
+    </div>
+    <div class="ig-banner">
+      <div class="ig-label">
+        <small>Follow the work</small>
+        <span>@thoughtsofafashionaddict</span>
+      </div>
+      <a href="https://www.instagram.com/thoughtsofafashionaddict?igsh=MXBwbnVyaG10anlubA%3D%3D&utm_source=qr" target="_blank">Instagram →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXPERIENCE ── -->
+<div class="spread" id="s4">
+  <div class="page-l bg-ivory">
+    <div class="spread-header">
+      <div class="snum">04</div>
+      <div class="stitle">
+        <small>CV</small>
+        Experience
+      </div>
+    </div>
+    <div class="exp-entry">
+      <div class="exp-company">Sahara London · Edinburgh</div>
+      <div class="exp-role">Sunday Manager</div>
+      <div class="exp-date">February 2026 – Present</div>
+      <div class="exp-detail">Sunday Supervisor for a women's boutique. Customer styling, stock &amp; deliveries, open and close.</div>
+    </div>
+    <div class="exp-entry">
+      <div class="exp-company">The Movement Yoga · Haywards Heath</div>
+      <div class="exp-role">Social Media Manager</div>
+      <div class="exp-date">June – December 2025</div>
+      <div class="exp-detail">Created and published Instagram content for @themovement.yoga — editorial planning and brand growth.</div>
+    </div>
+    <div class="exp-entry">
+      <div class="exp-company">Next · Haywards Heath</div>
+      <div class="exp-role">Sales Associate</div>
+      <div class="exp-date">July – September 2024</div>
+      <div class="exp-detail">Menswear &amp; womenswear. Returns, stock, store organisation.</div>
+    </div>
+    <div class="exp-entry" style="border-bottom:none;">
+      <div class="exp-company">Oliver Cunningham · Cuckfield</div>
+      <div class="exp-role">Receptionist</div>
+      <div class="exp-date">July – September 2023</div>
+    </div>
+    <div class="other-exp">
+      <div class="label">Other</div>
+      <p>Online certifications in Digital Marketing, Feature Writing &amp; SEO. Three plays directed, including a National Theatre quarter finalist.</p>
+    </div>
+  </div>
+  <div class="page-r bg-linen">
+    <div class="skills-head">
+      <div class="label" style="margin-bottom:8px;">Skills</div>
+      <h2>What I<br>bring.</h2>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">Writing &amp; Editorial</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div>
+      </div>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">Digital Content Design</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div>
+      </div>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">Social Media Management</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div>
+      </div>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">Customer Interaction</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div>
+      </div>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">Team Management</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div>
+      </div>
+    </div>
+    <div class="skill-line">
+      <span class="sk-name">SEO &amp; Digital Marketing</span>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div>
+      </div>
+    </div>
+    <div class="edu-section">
+      <div class="label">Education</div>
+      <div class="edu-row">
+        <span class="er-inst">University of Edinburgh</span>
+        <span class="er-year">2025–</span>
+      </div>
+      <div class="edu-degree">BSc Business with Marketing</div>
+      <div class="edu-row">
+        <span class="er-inst">Brighton College</span>
+        <span class="er-year">2023–25</span>
+      </div>
+      <div class="edu-degree">Economics A* &nbsp;·&nbsp; English Lit A &nbsp;·&nbsp; Drama A</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTACT ── -->
+<div class="spread" id="s5">
+  <div class="page-l bg-ink">
+    <div>
+      <div class="contact-eyebrow">05 — Contact</div>
+      <div class="contact-headline">Let's<br>talk<br><em>fashion.</em></div>
+      <p class="contact-strapline">Whether it's a collaboration, an opportunity, or a shared love of leopard print — I'd love to hear from you.</p>
+      <div class="contact-list">
+        <div class="cl-row">
+          <div class="cl-label">Email</div>
+          <div class="cl-value"><a href="mailto:alanabo3009@icloud.com">alanabo3009@icloud.com</a></div>
+        </div>
+        <div class="cl-row">
+          <div class="cl-label">Phone</div>
+          <div class="cl-value">+44 7483 860755</div>
+        </div>
+        <div class="cl-row">
+          <div class="cl-label">LinkedIn</div>
+          <div class="cl-value"><a href="https://www.linkedin.com/in/alana-duffy-190490385?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank">Alana Duffy</a></div>
+        </div>
+        <div class="cl-row">
+          <div class="cl-label">Location</div>
+          <div class="cl-value">Edinburgh, Scotland</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-foot">© 2026 Alana Duffy — All Rights Reserved</div>
+  </div>
+  <div class="page-r bg-parch">
+    <div class="backcover-tag">Thoughts of a Fashion Addict</div>
+    <div>
+      <div class="backcover-name">Alana<br>Duffy</div>
+      <p class="backcover-tagline">"Not just fashion — it's a mindset."</p>
+    </div>
+    <div class="links-list">
+      <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank" class="llink">
+        <span class="ll-platform">Substack</span>
+        <span class="ll-handle">thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.instagram.com/thoughtsofafashionaddict?igsh=MXBwbnVyaG10anlubA%3D%3D&utm_source=qr" target="_blank" class="llink">
+        <span class="ll-platform">Instagram</span>
+        <span class="ll-handle">@thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.tiktok.com/@thoughtsofafashionaddict?_r=1&_t=ZN-96WplsC0tfC" target="_blank" class="llink">
+        <span class="ll-platform">TikTok</span>
+        <span class="ll-handle">@thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://pin.it/2sg0KVmXV" target="_blank" class="llink">
+        <span class="ll-platform">Pinterest</span>
+        <span class="ll-handle">thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/alana-duffy-190490385?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="llink">
+        <span class="ll-platform">LinkedIn</span>
+        <span class="ll-handle">Alana Duffy</span>
+        <span class="ll-arr">→</span>
+      </a>
+    </div>
+    <div class="backcover-foot">Edinburgh · 2026 · Vol. I</div>
+  </div>
+</div>
+
+</div><!-- /book -->
+
+<button class="nav-btn" id="prev-btn" onclick="prev()">‹</button>
+<button class="nav-btn" id="next-btn" onclick="next()">›</button>
+<div id="pager"></div>
+<div id="hint">Turn the page →</div>
+</div>
+
+<script>
+const spreads = document.querySelectorAll('.spread');
+const N = spreads.length;
+let cur = 0, busy = false;
+
+// Build pips
+const pager = document.getElementById('pager');
+spreads.forEach((_,i) => {
+  const b = document.createElement('button');
+  b.className = 'pip' + (i===0?' on':'');
+  b.onclick = () => go(i);
+  pager.appendChild(b);
+});
+
+function updatePips(){
+  document.querySelectorAll('.pip').forEach((p,i)=> p.classList.toggle('on', i===cur));
+  document.getElementById('prev-btn').style.opacity = cur===0 ? '0.25':'1';
+  document.getElementById('next-btn').style.opacity = cur===N-1? '0.25':'1';
+  document.getElementById('hint').style.opacity = cur===N-1? '0':'1';
+}
+
+function go(idx){
+  if(idx===cur||busy) return;
+  busy=true;
+  const out = spreads[cur];
+  const inn = spreads[idx];
+  const dir = idx > cur ? 1 : -1;
+
+  out.classList.add(dir>0?'exit-left':'exit-right');
+  out.classList.remove('active');
+
+  inn.style.transform = `translateX(${dir*30}px)`;
+  inn.style.opacity = '0';
+  inn.classList.add('active');
+
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      inn.style.transition = 'opacity 0.45s cubic-bezier(.4,0,.2,1), transform 0.45s cubic-bezier(.4,0,.2,1)';
+      inn.style.transform = '';
+      inn.style.opacity = '1';
+    });
+  });
+
+  setTimeout(()=>{
+    out.classList.remove('exit-left','exit-right');
+    inn.style.transition='';
+    inn.style.transform='';
+    inn.style.opacity='';
+    cur=idx; busy=false;
+    updatePips();
+  },480);
+}
+
+function next(){ if(cur<N-1) go(cur+1); }
+function prev(){ if(cur>0)   go(cur-1); }
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') next();
+  if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   prev();
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; },{passive:true});
+document.addEventListener('touchend',  e=>{
+  const d = tx - e.changedTouches[0].clientX;
+  if(Math.abs(d)>50) d>0?next():prev();
+});
+
+updatePips();
+</script>
+</body>
+</html>
