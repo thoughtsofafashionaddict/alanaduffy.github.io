@@ -17,8 +17,8 @@
   --ash:        #5E5852;
   --ink:        #2C2820;
   --soft-ink:   #4A4540;
-  --blush:      #F0D0D0;
-  --blush-mid:  #B82828;
+  --blush:      #E8C9BE;       /* accent — used sparingly */
+  --blush-mid:  #D4A898;
   --sage:       #B8C4B0;
   --sage-light: #D6DDD1;
 }
@@ -31,6 +31,7 @@ html, body {
   color: var(--ink);
 }
 
+/* subtle paper texture via repeating gradient */
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -45,12 +46,14 @@ body::before {
   pointer-events: none; z-index: 0;
 }
 
+/* ── SCENE ── */
 #scene {
   width: 100vw; height: 100vh;
   display: flex; align-items: center; justify-content: center;
   position: relative; z-index: 1;
 }
 
+/* ── BOOK WRAPPER ── */
 #book {
   position: relative;
   width: min(960px, 96vw);
@@ -58,6 +61,7 @@ body::before {
   filter: drop-shadow(0 20px 60px rgba(44,40,32,0.18)) drop-shadow(0 4px 12px rgba(44,40,32,0.1));
 }
 
+/* ── SPREADS ── */
 .spread {
   position: absolute; inset: 0;
   display: grid; grid-template-columns: 1fr 1fr;
@@ -82,6 +86,7 @@ body::before {
   height: 100%;
 }
 
+/* spine shadow */
 .page-l::after {
   content: '';
   position: absolute; top:0; right:0; width:20px; height:100%;
@@ -95,6 +100,7 @@ body::before {
   pointer-events: none; z-index: 5;
 }
 
+/* page backgrounds */
 .bg-ivory    { background: var(--ivory); }
 .bg-warm     { background: var(--warm-white); }
 .bg-parch    { background: var(--parchment); }
@@ -113,6 +119,19 @@ body::before {
 }
 .label-dark { color: rgba(250,248,243,0.75); }
 
+.display {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--ink);
+}
+.display-italic {
+  font-family: 'Cormorant', serif;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.92;
+}
+
 .body {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 400;
@@ -127,30 +146,10 @@ body::before {
   color: var(--soft-ink);
 }
 
-/* ── SHARED IMAGE STYLES ── */
-.photo-full {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-.photo-frame {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-}
-.photo-frame img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.photo-caption {
-  font-family: 'Jost'; font-weight: 200;
-  font-size: 7.5px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--stone); margin-top: 5px;
-  display: block;
-}
+.rule { height: 1px; background: var(--linen); }
+.rule-ink { height: 1px; background: var(--stone); }
+.rule-blush { height: 1px; background: var(--blush); }
+.rule-dark { height: 1px; background: rgba(250,248,243,0.12); }
 
 /* ── SPREAD 0: COVER ── */
 #s0 .page-l {
@@ -158,15 +157,14 @@ body::before {
   display: flex; flex-direction: column;
   justify-content: space-between;
   padding: 44px 40px;
-  position: relative;
 }
 .cover-vol {
-  display: flex; align-items: center; gap: 12px; position: relative; z-index: 3;
+  display: flex; align-items: center; gap: 12px;
 }
 .cover-vol span { font-family:'Jost'; font-weight:200; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--stone); }
 .cover-vol::after { content:''; flex:1; height:1px; background:var(--linen); }
 
-.cover-main { flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px; position: relative; z-index: 3; }
+.cover-main { flex:1; display:flex; flex-direction:column; justify-content:center; gap:10px; }
 .cover-title {
   font-family: 'Cormorant', serif;
   font-weight: 300;
@@ -175,7 +173,10 @@ body::before {
   color: var(--ink);
   letter-spacing: -1px;
 }
-.cover-title em { font-style: italic; color: var(--blush-mid); }
+.cover-title em {
+  font-style: italic;
+  color: var(--blush-mid);
+}
 .cover-sub {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic; font-size: 16px;
@@ -184,24 +185,19 @@ body::before {
 }
 .cover-foot {
   display: flex; justify-content: space-between;
-  align-items: flex-end; position: relative; z-index: 3;
+  align-items: flex-end;
 }
 .cover-foot .label { color: var(--stone); }
 
-/* Cover right page — full bleed photo with frosted toc panel */
 #s0 .page-r {
-  position: relative;
-}
-#s0 .page-r .toc-panel {
-  position: absolute; inset: 0;
+  background: var(--parchment);
   display: flex; flex-direction: column;
   padding: 44px 36px;
   gap: 0;
-  z-index: 3;
-  background: rgba(253,252,250,0.82);
-  backdrop-filter: blur(1px);
 }
-.toc-heading { margin-bottom: 28px; }
+.toc-heading {
+  margin-bottom: 28px;
+}
 .toc-heading h2 {
   font-family: 'Cormorant', serif;
   font-weight: 300; font-size: 13px;
@@ -220,30 +216,38 @@ body::before {
 }
 .toc-entry:hover { gap: 20px; }
 .toc-entry:last-child { border-bottom: none; }
-.toc-n { font-family: 'Jost', sans-serif; font-weight:200; font-size: 11px; letter-spacing: 1px; color: var(--stone); }
-.toc-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--ink); font-style: italic; }
-.toc-tag { font-family: 'Jost', sans-serif; font-weight:200; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--stone); }
-.toc-bottom { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--linen); }
+.toc-n {
+  font-family: 'Jost', sans-serif; font-weight:200;
+  font-size: 11px; letter-spacing: 1px; color: var(--stone);
+}
+.toc-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--ink);
+  font-style: italic;
+}
+.toc-tag {
+  font-family: 'Jost', sans-serif; font-weight:200;
+  font-size: 8px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--stone);
+}
+.toc-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--linen);
+}
 
 /* ── SPREAD 1: ABOUT ── */
 #s1 .page-l {
   background: var(--ink);
   padding: 0;
   display: flex; flex-direction: column;
-  position: relative;
-}
-#s1 .page-l .about-photo {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center 20%;
-  opacity: 0.28;
 }
 .about-top {
   flex: 1;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   gap: 16px; padding: 40px 36px;
-  position: relative; z-index: 2; overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .about-top::before {
   content: 'A';
@@ -276,7 +280,6 @@ body::before {
 .about-bottom {
   background: var(--blush);
   padding: 24px 36px;
-  position: relative; z-index: 2;
 }
 .about-bottom .label { color: var(--soft-ink); margin-bottom:6px; }
 .about-bottom .role-text {
@@ -360,14 +363,24 @@ a.pill:hover { background: var(--ink); color: var(--ivory); border-color: var(--
 }
 
 .article-row {
-  padding: 10px 0;
+  padding: 11px 0;
   border-bottom: 1px solid var(--linen);
   display: flex; flex-direction: column; gap: 3px;
 }
 .article-row:last-child { border-bottom: none; }
-.art-date { font-family: 'Jost'; font-weight:200; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--stone); }
-.art-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink); line-height: 1.25; }
-.art-desc { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--ash); line-height: 1.5; }
+.art-date {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--stone);
+}
+.art-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height: 1.25;
+}
+.art-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 12px; color: var(--ash); line-height: 1.5;
+}
 a.art-link {
   font-family: 'Jost'; font-weight:300;
   font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
@@ -376,47 +389,25 @@ a.art-link {
 }
 a.art-link:hover { text-decoration: underline; }
 
-/* writing page right — photo strip + archive */
 #s2 .page-r {
   background: var(--parchment);
-  display: flex; flex-direction: column;
-  gap: 0;
-}
-#s2 .page-r .writing-photo-strip {
-  height: 160px;
-  width: 100%;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-#s2 .page-r .writing-photo-strip img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 60%;
-  display: block;
-}
-#s2 .page-r .writing-photo-strip::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent, var(--parchment));
-}
-#s2 .page-r .archive-panel {
-  flex: 1;
-  padding: 16px 36px 0;
-  display: flex; flex-direction: column;
+  padding: 36px 36px 32px;
+  display: flex; flex-direction: column; gap: 0;
 }
 .archive-head {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--stone);
 }
 .archive-head h3 {
   font-family: 'Cormorant', serif;
-  font-style: italic; font-weight:300; font-size:24px;
+  font-style: italic; font-weight:300; font-size:26px;
   color: var(--ink); line-height:1;
 }
-.archive-head small { font-family: 'Jost'; font-weight:200; font-size:8.5px; letter-spacing:4px; text-transform:uppercase; color:var(--ash); }
+.archive-head small {
+  font-family: 'Jost'; font-weight:200; font-size:8.5px;
+  letter-spacing:4px; text-transform:uppercase; color:var(--ash);
+}
 
 .sub-cta {
   margin-top: auto;
@@ -425,7 +416,10 @@ a.art-link:hover { text-decoration: underline; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px;
 }
-.sub-cta p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--ivory); }
+.sub-cta p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 14px; color: var(--ivory);
+}
 .sub-cta a {
   font-family: 'Jost'; font-weight:300;
   font-size: 8px; letter-spacing:3px; text-transform:uppercase;
@@ -442,6 +436,7 @@ a.art-link:hover { text-decoration: underline; }
   padding: 36px;
   display: flex; flex-direction: column; gap: 0;
 }
+
 .creative-grid {
   flex: 1;
   display: grid;
@@ -458,40 +453,31 @@ a.art-link:hover { text-decoration: underline; }
   cursor: pointer;
   transition: filter 0.3s;
 }
-.cg-cell:hover { filter: brightness(0.93); }
-.cg-cell .cg-bg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-.cg-cell:hover .cg-bg { transform: scale(1.03); }
-.cg-cell .cg-scrim {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(44,40,32,0.65) 0%, rgba(44,40,32,0.1) 55%, transparent 100%);
-  z-index: 1;
-}
+.cg-cell:hover { filter: brightness(0.95); }
 .cg-cell .cg-label {
   font-family: 'Jost'; font-weight:200;
   font-size: 7.5px; letter-spacing:3px; text-transform:uppercase;
   margin-bottom: 3px;
-  position: relative; z-index: 2;
 }
 .cg-cell .cg-name {
   font-family: 'Cormorant Garamond', serif;
   font-size: 14px; line-height:1.2;
-  position: relative; z-index: 2;
 }
 .cg-cell a { text-decoration: none; color: inherit; }
-.cg-cell a::after { content:''; position:absolute; inset:0; z-index: 3; }
+.cg-cell a::after { content:''; position:absolute; inset:0; }
 
 .cg-1 { background: var(--parchment); }
 .cg-1 .cg-label { color: var(--ash); }
 .cg-1 .cg-name  { color: var(--ink); }
-.cg-2 .cg-label { color: rgba(250,248,243,0.7); }
-.cg-2 .cg-name  { color: var(--ivory); }
-.cg-3 .cg-label { color: rgba(250,248,243,0.7); }
-.cg-3 .cg-name  { color: var(--ivory); }
+
+.cg-2 { background: var(--blush); }
+.cg-2 .cg-label { color: var(--soft-ink); opacity:0.6; }
+.cg-2 .cg-name  { color: var(--ink); }
+
+.cg-3 { background: var(--sage-light); }
+.cg-3 .cg-label { color: var(--soft-ink); opacity:0.6; }
+.cg-3 .cg-name  { color: var(--ink); }
+
 .cg-4 { background: var(--linen); }
 .cg-4 .cg-label { color: var(--ash); }
 .cg-4 .cg-name  { color: var(--ink); }
@@ -501,9 +487,8 @@ a.art-link:hover { text-decoration: underline; }
   font-family: 'Cormorant', serif; font-style:italic;
   font-size: 32px; font-weight:300;
   color: rgba(44,40,32,0.07); line-height:1;
-  user-select: none; z-index: 2;
+  user-select: none;
 }
-.cg-cell:is(.cg-2,.cg-3) .cg-ornament { color: rgba(250,248,243,0.12); }
 
 #s3 .page-r {
   background: var(--parchment);
@@ -517,12 +502,30 @@ a.art-link:hover { text-decoration: underline; }
   align-items: flex-start;
 }
 .creative-entry:last-child { border-bottom: none; }
-.ce-num { font-family: 'Cormorant', serif; font-style:italic; font-size: 28px; font-weight:300; color: var(--linen); line-height: 1; min-width:22px; }
+.ce-num {
+  font-family: 'Cormorant', serif; font-style:italic;
+  font-size: 28px; font-weight:300;
+  color: var(--linen); line-height: 1; min-width:22px;
+}
 .ce-body {}
-.ce-label { font-family:'Jost'; font-weight:200; font-size: 8px; letter-spacing:3px; text-transform:uppercase; color: var(--ash); margin-bottom:2px; }
-.ce-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink); line-height:1.2; margin-bottom: 3px; }
-.ce-body p { font-family:'Cormorant Garamond', serif; font-size: 12px; color: var(--ash); line-height:1.55; font-style:italic; }
-.ce-body a { font-family:'Jost'; font-weight:300; font-size: 8px; letter-spacing:2px; text-transform:uppercase; color: var(--blush-mid); text-decoration:none; }
+.ce-label {
+  font-family:'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--ash); margin-bottom:2px;
+}
+.ce-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height:1.2; margin-bottom: 3px;
+}
+.ce-body p {
+  font-family:'Cormorant Garamond', serif;
+  font-size: 12px; color: var(--ash); line-height:1.55; font-style:italic;
+}
+.ce-body a {
+  font-family:'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--blush-mid); text-decoration:none;
+}
 .ce-body a:hover { text-decoration: underline; }
 
 .ig-banner {
@@ -531,9 +534,23 @@ a.art-link:hover { text-decoration: underline; }
   padding: 14px 16px;
   border: 1px solid var(--linen);
 }
-.ig-banner .ig-label small { font-family:'Jost'; font-weight:200; font-size:7.5px; letter-spacing:4px; text-transform:uppercase; color:var(--ash); display: block; margin-bottom:3px; }
-.ig-banner .ig-label span { font-family:'Cormorant Garamond', serif; font-style:italic; font-size:14px; color:var(--ink); }
-.ig-banner a { font-family:'Jost'; font-weight:300; font-size: 8px; letter-spacing:2px; text-transform:uppercase; color: var(--soft-ink); text-decoration:none; border-bottom: 1px solid var(--stone); padding-bottom: 2px; transition: color 0.2s; }
+.ig-banner .ig-label small {
+  font-family:'Jost'; font-weight:200; font-size:7.5px;
+  letter-spacing:4px; text-transform:uppercase; color:var(--ash);
+  display: block; margin-bottom:3px;
+}
+.ig-banner .ig-label span {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px; color:var(--ink);
+}
+.ig-banner a {
+  font-family:'Jost'; font-weight:300;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--soft-ink); text-decoration:none;
+  border-bottom: 1px solid var(--stone);
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
 .ig-banner a:hover { color: var(--blush-mid); border-color: var(--blush-mid); }
 
 /* ── SPREAD 4: EXPERIENCE ── */
@@ -542,43 +559,38 @@ a.art-link:hover { text-decoration: underline; }
   padding: 36px;
   display: flex; flex-direction: column; gap: 0;
 }
-.exp-entry { padding: 11px 0; border-bottom: 1px solid var(--linen); display: flex; flex-direction: column; gap: 2px; }
+.exp-entry {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--linen);
+  display: flex; flex-direction: column; gap: 2px;
+}
 .exp-entry:last-child { border-bottom: none; }
-.exp-company { font-family: 'Jost'; font-weight:300; font-size: 8.5px; letter-spacing:3px; text-transform:uppercase; color: var(--blush-mid); }
-.exp-role { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink); line-height:1.2; }
-.exp-date { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--stone); }
-.exp-detail { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--ash); line-height:1.55; margin-top:2px; }
+.exp-company {
+  font-family: 'Jost'; font-weight:300;
+  font-size: 8.5px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--blush-mid);
+}
+.exp-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; color: var(--ink); line-height:1.2;
+}
+.exp-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 12px; color: var(--stone);
+}
+.exp-detail {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px; color: var(--ash); line-height:1.55; margin-top:2px;
+}
 
-.other-exp { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--stone); }
+.other-exp {
+  margin-top: 10px; padding-top: 12px;
+  border-top: 1px solid var(--stone);
+}
 .other-exp .label { margin-bottom: 8px; }
-.other-exp p { font-family:'Cormorant Garamond', serif; font-style:italic; font-size:12px; color:var(--ash); line-height:1.6; }
-
-#s4 .page-l .exp-photo-bar {
-  margin-top: 14px;
-  height: 72px;
-  border-top: 1px solid var(--linen);
-  overflow: hidden;
-  flex-shrink: 0;
-  position: relative;
-}
-#s4 .page-l .exp-photo-bar img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 40%;
-  display: block;
-}
-#s4 .page-l .exp-photo-bar .bar-caption {
-  position: absolute; bottom: 6px; right: 10px;
-  font-family: 'Jost'; font-weight:200;
-  font-size: 7px; letter-spacing: 2.5px; text-transform: uppercase;
-  color: rgba(253,252,250,0.7);
-  z-index: 2;
-}
-#s4 .page-l .exp-photo-bar::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(44,40,32,0.18);
-  z-index: 1;
+.other-exp p {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:12px; color:var(--ash); line-height:1.6;
 }
 
 #s4 .page-r {
@@ -586,22 +598,58 @@ a.art-link:hover { text-decoration: underline; }
   padding: 36px;
   display: flex; flex-direction: column; gap: 0;
 }
-.skills-head { margin-bottom: 18px; }
-.skills-head h2 { font-family: 'Cormorant', serif; font-weight: 300; font-style:italic; font-size:40px; line-height: 0.92; color: var(--ink); }
+.skills-head {
+  margin-bottom: 18px;
+}
+.skills-head h2 {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-style:italic; font-size:40px;
+  line-height: 0.92; color: var(--ink);
+}
 
-.skill-line { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(200,191,176,0.4); }
-.skill-line .sk-name { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--ink); }
+.skill-line {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid rgba(200,191,176,0.4);
+}
+.skill-line .sk-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; color: var(--ink);
+}
 .sk-dots { display: flex; gap: 4px; }
-.sk-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--linen); border: 1px solid var(--stone); transition: background 0.3s; }
+.sk-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--linen);
+  border: 1px solid var(--stone);
+  transition: background 0.3s;
+}
 .sk-dot.on { background: var(--blush-mid); border-color: var(--blush-mid); }
 
-.edu-section { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--stone); }
+.edu-section {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--stone);
+}
 .edu-section .label { margin-bottom: 10px; }
-.edu-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid rgba(200,191,176,0.3); }
+.edu-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline; padding: 5px 0;
+  border-bottom: 1px solid rgba(200,191,176,0.3);
+}
 .edu-row:last-child { border-bottom: none; }
-.edu-row .er-inst { font-family: 'Cormorant Garamond', serif; font-style:italic; font-size: 14px; color: var(--ink); }
-.edu-row .er-year { font-family: 'Jost'; font-weight:200; font-size: 9px; letter-spacing:2px; color: var(--ash); }
-.edu-degree { font-family: 'Jost'; font-weight:200; font-size: 8px; letter-spacing:2px; text-transform:uppercase; color: var(--ash); padding: 3px 0 6px 0; border-bottom: 1px solid rgba(200,191,176,0.3); }
+.edu-row .er-inst {
+  font-family: 'Cormorant Garamond', serif;
+  font-style:italic; font-size: 14px; color: var(--ink);
+}
+.edu-row .er-year {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 9px; letter-spacing:2px; color: var(--ash);
+}
+.edu-degree {
+  font-family: 'Jost'; font-weight:200;
+  font-size: 8px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--ash); padding: 3px 0 6px 0;
+  border-bottom: 1px solid rgba(200,191,176,0.3);
+}
 
 /* ── SPREAD 5: CONTACT ── */
 #s5 .page-l {
@@ -610,64 +658,104 @@ a.art-link:hover { text-decoration: underline; }
   display: flex; flex-direction: column;
   justify-content: space-between;
 }
-.contact-eyebrow { font-family:'Jost'; font-weight:200; font-size: 8.5px; letter-spacing:5px; text-transform:uppercase; color: rgba(250,248,243,0.65); margin-bottom: 12px; }
-.contact-headline { font-family: 'Cormorant', serif; font-weight: 300; font-size: clamp(44px, 6vw, 64px); line-height: 0.9; color: var(--ivory); }
-.contact-headline em { font-style: italic; color: var(--blush); }
-.contact-strapline { font-family: 'Cormorant Garamond', serif; font-style:italic; font-size:14px; color: rgba(250,248,243,0.5); line-height:1.7; margin-top: 14px; }
-.contact-list { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.contact-eyebrow {
+  font-family:'Jost'; font-weight:200;
+  font-size: 8.5px; letter-spacing:5px; text-transform:uppercase;
+  color: rgba(250,248,243,0.65); margin-bottom: 12px;
+}
+.contact-headline {
+  font-family: 'Cormorant', serif;
+  font-weight: 300; font-size: clamp(44px, 6vw, 64px);
+  line-height: 0.9; color: var(--ivory);
+}
+.contact-headline em {
+  font-style: italic; color: var(--blush);
+}
+.contact-strapline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px;
+  color: rgba(250,248,243,0.5); line-height:1.7;
+  margin-top: 14px;
+}
+.contact-list {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 28px;
+}
 .cl-row {}
-.cl-label { font-family:'Jost'; font-weight:200; font-size: 7.5px; letter-spacing:4px; text-transform:uppercase; color: rgba(250,248,243,0.6); margin-bottom:2px; }
-.cl-value { font-family:'Cormorant Garamond', serif; font-size: 15px; color: var(--ivory); }
+.cl-label {
+  font-family:'Jost'; font-weight:200;
+  font-size: 7.5px; letter-spacing:4px; text-transform:uppercase;
+  color: rgba(250,248,243,0.6); margin-bottom:2px;
+}
+.cl-value {
+  font-family:'Cormorant Garamond', serif;
+  font-size: 15px; color: var(--ivory);
+}
 .cl-value a { color: var(--ivory); text-decoration:none; }
 .cl-value a:hover { color: var(--blush); }
-.contact-foot { font-family:'Jost'; font-weight:200; font-size:8px; letter-spacing:3px; text-transform:uppercase; color: rgba(250,248,243,0.5); padding-top: 20px; border-top: 1px solid rgba(250,248,243,0.08); }
 
-/* back cover */
+.contact-foot {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: rgba(250,248,243,0.5);
+  padding-top: 20px;
+  border-top: 1px solid rgba(250,248,243,0.08);
+}
+
 #s5 .page-r {
   background: var(--parchment);
-  padding: 0;
-  display: flex; flex-direction: column;
-}
-.backcover-content {
-  flex: 1;
-  padding: 44px 36px 24px;
+  padding: 44px 36px;
   display: flex; flex-direction: column;
   justify-content: space-between;
 }
-.backcover-tag { font-family:'Jost'; font-weight:200; font-size:8px; letter-spacing:5px; text-transform:uppercase; color: var(--stone); border: 1px solid var(--linen); padding: 5px 12px; display: inline-block; }
-.backcover-name { font-family: 'Cormorant', serif; font-style: italic; font-weight:300; font-size: 62px; color: var(--ink); line-height:0.88; margin-top: 16px; }
-.backcover-tagline { font-family:'Cormorant Garamond', serif; font-style:italic; font-size:14px; color:var(--ash); line-height:1.6; margin-top: 8px; }
+.backcover-tag {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:5px; text-transform:uppercase;
+  color: var(--stone);
+  border: 1px solid var(--linen); padding: 5px 12px;
+  display: inline-block;
+}
+.backcover-name {
+  font-family: 'Cormorant', serif;
+  font-style: italic; font-weight:300;
+  font-size: 62px; color: var(--ink); line-height:0.88;
+}
+.backcover-tagline {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:14px; color:var(--ash); line-height:1.6;
+  margin-top: 8px;
+}
 
 .links-list { display:flex; flex-direction:column; }
-.llink { display: flex; align-items: center; justify-content:space-between; padding: 9px 0; border-bottom: 1px solid var(--linen); text-decoration: none; gap: 10px; transition: gap 0.2s; }
+.llink {
+  display: flex; align-items: center; justify-content:space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--linen);
+  text-decoration: none;
+  gap: 10px;
+  transition: gap 0.2s;
+}
 .llink:last-child { border-bottom:none; }
 .llink:hover { gap: 16px; }
-.llink .ll-platform { font-family:'Jost'; font-weight:200; font-size:8px; letter-spacing:3px; text-transform:uppercase; color: var(--stone); min-width: 72px; }
-.llink .ll-handle { font-family:'Cormorant Garamond', serif; font-style:italic; font-size: 14px; color: var(--ink); flex:1; }
-.llink .ll-arr { font-family:'Jost'; font-size:11px; color: var(--stone); transition: color 0.2s; }
+.llink .ll-platform {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--stone); min-width: 72px;
+}
+.llink .ll-handle {
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size: 14px; color: var(--ink); flex:1;
+}
+.llink .ll-arr {
+  font-family:'Jost'; font-size:11px;
+  color: var(--stone); transition: color 0.2s;
+}
 .llink:hover .ll-arr { color: var(--blush-mid); }
 
-.backcover-photo-strip {
-  height: 110px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 2px;
-  flex-shrink: 0;
+.backcover-foot {
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:4px; text-transform:uppercase;
+  color: var(--stone);
 }
-.backcover-photo-strip .bcp {
-  overflow: hidden;
-  position: relative;
-}
-.backcover-photo-strip .bcp img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.4s ease;
-}
-.backcover-photo-strip .bcp:hover img { transform: scale(1.05); }
-
-.backcover-foot { font-family:'Jost'; font-weight:200; font-size:8px; letter-spacing:4px; text-transform:uppercase; color: var(--stone); padding: 10px 36px; border-top: 1px solid var(--linen); }
 
 /* ── NAV ── */
 .nav-btn {
@@ -684,13 +772,28 @@ a.art-link:hover { text-decoration: underline; }
 #prev-btn { left: 10px; }
 #next-btn { right: 10px; }
 
-#pager { position: fixed; bottom: 18px; left:50%; transform:translateX(-50%); display: flex; gap: 8px; z-index:500; }
-.pip { width: 5px; height: 5px; border-radius:50%; background: var(--stone); border:none; cursor: pointer; padding:0; transition: background 0.2s, transform 0.2s; }
+#pager {
+  position: fixed; bottom: 18px; left:50%; transform:translateX(-50%);
+  display: flex; gap: 8px; z-index:500;
+}
+.pip {
+  width: 5px; height: 5px; border-radius:50%;
+  background: var(--stone); border:none;
+  cursor: pointer; padding:0;
+  transition: background 0.2s, transform 0.2s;
+}
 .pip.on { background: var(--ink); transform: scale(1.3); }
 
-#hint { position: fixed; bottom: 18px; right: 16px; font-family:'Jost'; font-weight:200; font-size:8px; letter-spacing:3px; text-transform:uppercase; color: var(--stone); z-index:500; animation: blink 2.5s ease-in-out infinite; }
+#hint {
+  position: fixed; bottom: 18px; right: 16px;
+  font-family:'Jost'; font-weight:200;
+  font-size:8px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--stone); z-index:500;
+  animation: blink 2.5s ease-in-out infinite;
+}
 @keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
 
+/* responsive */
 @media (max-width:680px){
   .spread { grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
   .spread > div { height:50%; }
@@ -722,30 +825,37 @@ a.art-link:hover { text-decoration: underline; }
       <span class="label">Portfolio</span>
     </div>
   </div>
-  <div class="page-r" style="position:relative;">
-    <img class="photo-full" src="images/b1b1df13-370c-4fd2-9d56-9fb3c4b34418.jpeg" alt="Alana" style="object-position: center 15%;">
-    <div class="toc-panel">
-      <div class="toc-heading">
-        <h2>Contents</h2>
-      </div>
-      <div class="toc-entry" onclick="go(1)">
-        <span class="toc-n">01</span><span class="toc-name">About Me</span><span class="toc-tag">Profile</span>
-      </div>
-      <div class="toc-entry" onclick="go(2)">
-        <span class="toc-n">02</span><span class="toc-name">Writing</span><span class="toc-tag">Substack</span>
-      </div>
-      <div class="toc-entry" onclick="go(3)">
-        <span class="toc-n">03</span><span class="toc-name">Creative Work</span><span class="toc-tag">Portfolio</span>
-      </div>
-      <div class="toc-entry" onclick="go(4)">
-        <span class="toc-n">04</span><span class="toc-name">Experience</span><span class="toc-tag">CV</span>
-      </div>
-      <div class="toc-entry" onclick="go(5)">
-        <span class="toc-n">05</span><span class="toc-name">Contact</span><span class="toc-tag">Links</span>
-      </div>
-      <div class="toc-bottom">
-        <span class="label">thoughtsofafashionaddict.substack.com</span>
-      </div>
+  <div class="page-r bg-parch">
+    <div class="toc-heading">
+      <h2>Contents</h2>
+    </div>
+    <div class="toc-entry" onclick="go(1)">
+      <span class="toc-n">01</span>
+      <span class="toc-name">About Me</span>
+      <span class="toc-tag">Profile</span>
+    </div>
+    <div class="toc-entry" onclick="go(2)">
+      <span class="toc-n">02</span>
+      <span class="toc-name">Writing</span>
+      <span class="toc-tag">Substack</span>
+    </div>
+    <div class="toc-entry" onclick="go(3)">
+      <span class="toc-n">03</span>
+      <span class="toc-name">Creative Work</span>
+      <span class="toc-tag">Portfolio</span>
+    </div>
+    <div class="toc-entry" onclick="go(4)">
+      <span class="toc-n">04</span>
+      <span class="toc-name">Experience</span>
+      <span class="toc-tag">CV</span>
+    </div>
+    <div class="toc-entry" onclick="go(5)">
+      <span class="toc-n">05</span>
+      <span class="toc-name">Contact</span>
+      <span class="toc-tag">Links</span>
+    </div>
+    <div class="toc-bottom">
+      <span class="label">thoughtsofafashionaddict.substack.com</span>
     </div>
   </div>
 </div>
@@ -753,7 +863,6 @@ a.art-link:hover { text-decoration: underline; }
 <!-- ── ABOUT ── -->
 <div class="spread" id="s1">
   <div class="page-l bg-ink">
-    <img class="about-photo" src="images/IMG_8950.jpeg" alt="Alana in London">
     <div class="about-top">
       <span class="label label-dark">01 — Profile</span>
       <div class="name-display">Alana<br>Duffy</div>
@@ -829,40 +938,36 @@ a.art-link:hover { text-decoration: underline; }
       <a href="https://substack.com/@thoughtsofafashionaddict/note/p-189881774?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
     </div>
   </div>
-  <div class="page-r">
-    <div class="writing-photo-strip">
-      <img src="images/IMG_9119.jpeg" alt="Editorial">
+  <div class="page-r bg-parch">
+    <div class="archive-head">
+      <small>Archive</small>
+      <h3>More from the archive</h3>
     </div>
-    <div class="archive-panel">
-      <div class="archive-head">
-        <small>Archive</small>
-        <h3>More from the archive</h3>
-      </div>
-      <div class="article-row">
-        <span class="art-date">February 2026</span>
-        <div class="art-title">The Traitors Style</div>
-        <div class="art-desc">Reflecting on the finale — is fashion the true faithful?</div>
-        <a href="https://substack.com/@thoughtsofafashionaddict/note/p-188258132?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
-      </div>
-      <div class="article-row">
-        <span class="art-date">February 2026</span>
-        <div class="art-title">I Love LA — This Generation's Sex &amp; The City</div>
-        <a href="https://substack.com/@thoughtsofafashionaddict/note/p-187861700?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
-      </div>
-      <div class="article-row">
-        <span class="art-date">January 2026</span>
-        <div class="art-title">Miss Sixty and The Rise of The Modern Day Marie</div>
-        <a href="https://substack.com/@thoughtsofafashionaddict/note/p-185074554?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
-      </div>
-      <div class="article-row" style="border-bottom:none;">
-        <span class="art-date">The Student — Edinburgh</span>
-        <div class="art-title">8 Published Articles</div>
-        <div class="art-desc">Contributing writer for Edinburgh's oldest student newspaper.</div>
-      </div>
-      <div class="sub-cta">
-        <p>All issues on Substack</p>
-        <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank">Subscribe →</a>
-      </div>
+    <div class="article-row">
+      <span class="art-date">February 2026</span>
+      <div class="art-title">The Traitors Style</div>
+      <div class="art-desc">Reflecting on the finale — is fashion the true faithful?</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-188258132?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">February 2026</span>
+      <div class="art-title">I Love LA - This Generation's Sex &amp; The City</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-187861700?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row">
+      <span class="art-date">January 2026</span>
+      <div class="art-title">Miss Sixty and The Rise of The Modern Day Marie</div>
+      <div class="art-desc">New displays and the art of showing, not selling.</div>
+      <a href="https://substack.com/@thoughtsofafashionaddict/note/p-185074554?r=5i685m&utm_medium=ios&utm_source=notes-share-action" target="_blank" class="art-link">Read →</a>
+    </div>
+    <div class="article-row" style="border-bottom:none;">
+      <span class="art-date">The Student — Edinburgh</span>
+      <div class="art-title">8 Published Articles</div>
+      <div class="art-desc">Contributing writer for Edinburgh's oldest student newspaper.</div>
+    </div>
+    <div class="sub-cta">
+      <p>All issues on Substack</p>
+      <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank">Subscribe →</a>
     </div>
   </div>
 </div>
@@ -884,15 +989,11 @@ a.art-link:hover { text-decoration: underline; }
         <div class="cg-name"><a href="https://canva.link/2fsazdii2j95k2q" target="_blank">GoGo Start Up<br>Project</a></div>
       </div>
       <div class="cg-cell cg-2">
-        <img class="cg-bg" src="images/IMG_8821.jpeg" alt="Boutique shelves">
-        <div class="cg-scrim"></div>
         <div class="cg-ornament">II</div>
-        <div class="cg-label">Canva · Campaign</div>
-        <div class="cg-name"><a href="https://canva.link/67soxgdi6rvjuwf" target="_blank">Tennents x Wingstop:<br>Brew &amp; Chew</a></div>
+        <div class="cg-label">Canva · Collection</div>
+        <div class="cg-name"><a href="https://canva.link/67soxgdi6rvjuwf" target="_blank">Tennents x Wingstop:<br>Brew and Chew Campaign</a></div>
       </div>
       <div class="cg-cell cg-3">
-        <img class="cg-bg" src="images/IMG_8827.jpeg" alt="Store display">
-        <div class="cg-scrim"></div>
         <div class="cg-ornament">III</div>
         <div class="cg-label">Theatre</div>
         <div class="cg-name">Young Playwrights<br>Quarter Finalist</div>
@@ -980,7 +1081,7 @@ a.art-link:hover { text-decoration: underline; }
       <div class="exp-date">July – September 2024</div>
       <div class="exp-detail">Menswear &amp; womenswear. Returns, stock, store organisation.</div>
     </div>
-    <div class="exp-entry">
+    <div class="exp-entry" style="border-bottom:none;">
       <div class="exp-company">Oliver Cunningham · Cuckfield</div>
       <div class="exp-role">Receptionist</div>
       <div class="exp-date">July – September 2023</div>
@@ -988,10 +1089,6 @@ a.art-link:hover { text-decoration: underline; }
     <div class="other-exp">
       <div class="label">Other</div>
       <p>Online certifications in Digital Marketing, Feature Writing &amp; SEO. Three plays directed, including a National Theatre quarter finalist.</p>
-    </div>
-    <div class="exp-photo-bar">
-      <img src="images/IMG_9148.jpeg" alt="Shoe boutique wall">
-      <span class="bar-caption">Sahara London · Edinburgh</span>
     </div>
   </div>
   <div class="page-r bg-linen">
@@ -1001,27 +1098,39 @@ a.art-link:hover { text-decoration: underline; }
     </div>
     <div class="skill-line">
       <span class="sk-name">Writing &amp; Editorial</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div>
+      </div>
     </div>
     <div class="skill-line">
       <span class="sk-name">Digital Content Design</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div>
+      </div>
     </div>
     <div class="skill-line">
       <span class="sk-name">Social Media Management</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div>
+      </div>
     </div>
     <div class="skill-line">
       <span class="sk-name">Customer Interaction</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div>
+      </div>
     </div>
     <div class="skill-line">
       <span class="sk-name">Team Management</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div>
+      </div>
     </div>
     <div class="skill-line">
       <span class="sk-name">SEO &amp; Digital Marketing</span>
-      <div class="sk-dots"><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div></div>
+      <div class="sk-dots">
+        <div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot on"></div><div class="sk-dot"></div><div class="sk-dot"></div>
+      </div>
     </div>
     <div class="edu-section">
       <div class="label">Education</div>
@@ -1067,36 +1176,38 @@ a.art-link:hover { text-decoration: underline; }
     </div>
     <div class="contact-foot">© 2026 Alana Duffy — All Rights Reserved</div>
   </div>
-  <div class="page-r">
-    <div class="backcover-content">
-      <div>
-        <div class="backcover-tag">Thoughts of a Fashion Addict</div>
-        <div class="backcover-name">Alana<br>Duffy</div>
-        <p class="backcover-tagline">"Not just fashion — it's a mindset."</p>
-      </div>
-      <div class="links-list">
-        <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank" class="llink">
-          <span class="ll-platform">Substack</span><span class="ll-handle">thoughtsofafashionaddict</span><span class="ll-arr">→</span>
-        </a>
-        <a href="https://www.instagram.com/thoughtsofafashionaddict?igsh=MXBwbnVyaG10anlubA%3D%3D&utm_source=qr" target="_blank" class="llink">
-          <span class="ll-platform">Instagram</span><span class="ll-handle">@thoughtsofafashionaddict</span><span class="ll-arr">→</span>
-        </a>
-        <a href="https://www.tiktok.com/@thoughtsofafashionaddict?_r=1&_t=ZN-96WplsC0tfC" target="_blank" class="llink">
-          <span class="ll-platform">TikTok</span><span class="ll-handle">@thoughtsofafashionaddict</span><span class="ll-arr">→</span>
-        </a>
-        <a href="https://pin.it/2sg0KVmXV" target="_blank" class="llink">
-          <span class="ll-platform">Pinterest</span><span class="ll-handle">thoughtsofafashionaddict</span><span class="ll-arr">→</span>
-        </a>
-        <a href="https://www.linkedin.com/in/alana-duffy-190490385?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="llink">
-          <span class="ll-platform">LinkedIn</span><span class="ll-handle">Alana Duffy</span><span class="ll-arr">→</span>
-        </a>
-      </div>
+  <div class="page-r bg-parch">
+    <div class="backcover-tag">Thoughts of a Fashion Addict</div>
+    <div>
+      <div class="backcover-name">Alana<br>Duffy</div>
+      <p class="backcover-tagline">"Not just fashion — it's a mindset."</p>
     </div>
-    <div class="backcover-photo-strip">
-      <div class="bcp"><img src="images/IMG_3586.jpeg" alt="Style detail"></div>
-      <div class="bcp"><img src="images/IMG_3590.jpeg" alt="Accessories"></div>
-      <div class="bcp"><img src="images/IMG_3593.jpeg" alt="Outfit detail"></div>
-      <div class="bcp"><img src="images/IMG_3598.jpeg" alt="Style detail"></div>
+    <div class="links-list">
+      <a href="https://open.substack.com/pub/thoughtsofafashionaddict" target="_blank" class="llink">
+        <span class="ll-platform">Substack</span>
+        <span class="ll-handle">thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.instagram.com/thoughtsofafashionaddict?igsh=MXBwbnVyaG10anlubA%3D%3D&utm_source=qr" target="_blank" class="llink">
+        <span class="ll-platform">Instagram</span>
+        <span class="ll-handle">@thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.tiktok.com/@thoughtsofafashionaddict?_r=1&_t=ZN-96WplsC0tfC" target="_blank" class="llink">
+        <span class="ll-platform">TikTok</span>
+        <span class="ll-handle">@thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://pin.it/2sg0KVmXV" target="_blank" class="llink">
+        <span class="ll-platform">Pinterest</span>
+        <span class="ll-handle">thoughtsofafashionaddict</span>
+        <span class="ll-arr">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/alana-duffy-190490385?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="llink">
+        <span class="ll-platform">LinkedIn</span>
+        <span class="ll-handle">Alana Duffy</span>
+        <span class="ll-arr">→</span>
+      </a>
     </div>
     <div class="backcover-foot">Edinburgh · 2026 · Vol. I</div>
   </div>
@@ -1115,6 +1226,7 @@ const spreads = document.querySelectorAll('.spread');
 const N = spreads.length;
 let cur = 0, busy = false;
 
+// Build pips
 const pager = document.getElementById('pager');
 spreads.forEach((_,i) => {
   const b = document.createElement('button');
@@ -1136,11 +1248,14 @@ function go(idx){
   const out = spreads[cur];
   const inn = spreads[idx];
   const dir = idx > cur ? 1 : -1;
+
   out.classList.add(dir>0?'exit-left':'exit-right');
   out.classList.remove('active');
+
   inn.style.transform = `translateX(${dir*30}px)`;
   inn.style.opacity = '0';
   inn.classList.add('active');
+
   requestAnimationFrame(()=>{
     requestAnimationFrame(()=>{
       inn.style.transition = 'opacity 0.45s cubic-bezier(.4,0,.2,1), transform 0.45s cubic-bezier(.4,0,.2,1)';
@@ -1148,6 +1263,7 @@ function go(idx){
       inn.style.opacity = '1';
     });
   });
+
   setTimeout(()=>{
     out.classList.remove('exit-left','exit-right');
     inn.style.transition='';
